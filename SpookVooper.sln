@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookVooper.Server", "SpookVooper.Server\SpookVooper.Server.csproj", "{19CA4223-54AA-4F0A-B3C5-415AA658B661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookVooper.Client", "SpookVooper.Client\SpookVooper.Client.csproj", "{388BD2AD-62A4-43A1-803E-9BD0134777A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19CA4223-54AA-4F0A-B3C5-415AA658B661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19CA4223-54AA-4F0A-B3C5-415AA658B661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19CA4223-54AA-4F0A-B3C5-415AA658B661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19CA4223-54AA-4F0A-B3C5-415AA658B661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{388BD2AD-62A4-43A1-803E-9BD0134777A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{388BD2AD-62A4-43A1-803E-9BD0134777A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{388BD2AD-62A4-43A1-803E-9BD0134777A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{388BD2AD-62A4-43A1-803E-9BD0134777A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
