@@ -1,6 +1,0 @@
-@SpookVooper.Server_HostAddress = http://localhost:5261
-
-GET {{SpookVooper.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

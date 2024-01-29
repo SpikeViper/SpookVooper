@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SpookVooper.Server.Config;
 using SpookVooper.Server.Workers;
 
 namespace SpookVooper.Server;
@@ -13,6 +14,8 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        Console.WriteLine("Starting SpookVooper Server...");
+        
         // Create builder
         var builder = WebApplication.CreateBuilder(args);
 
@@ -179,7 +182,7 @@ public class Program
             .AddEnvironmentVariables()
             .Build();
         
-        //builder.Configuration.GetSection("CDN").Get<CdnConfig>();
+        builder.Configuration.GetSection("ValourConfig").Get<ValourConfig>();
         
     }
 }

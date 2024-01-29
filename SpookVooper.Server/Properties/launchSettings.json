@@ -9,6 +9,16 @@
     }
   },
   "profiles": {
+    "SpookVooper.Server": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      //"inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5000"
+    },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
