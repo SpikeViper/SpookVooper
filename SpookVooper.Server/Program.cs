@@ -82,7 +82,7 @@ public class Program
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseRateLimiter();
+        // app.UseRateLimiter();
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapRazorPages();
@@ -154,9 +154,7 @@ public class Program
 
         services.AddRazorPages();
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        
         services.AddHostedService<ValourWorker>();
-
         services.AddEndpointsApiExplorer();
 
         services.AddSwaggerGen(c =>

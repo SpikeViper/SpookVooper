@@ -6,6 +6,7 @@ public class ValourConfig
     
     public string BotEmail { get; set; }
     public string BotPassword { get; set; }
+    public string OpenAiKey { get; set; }
 
     public ValourConfig()
     {
