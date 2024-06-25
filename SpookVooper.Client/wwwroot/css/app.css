@@ -1,5 +1,30 @@
+:root {
+    --primary-color: #040d14;
+    --secondary-color: #aaaaaa;
+    --font-color: #ffffff;
+    --bg-color: #040d14;
+    --bg-color-2: #0b151d;
+    --bg-color-3: #121e27;
+    --heading-color: #a8fff9;
+    --link-color: #00aaff;
+    --border-color: #303030;
+    --alt-border-color: #666666;
+    --input-color: #000000;
+    --comment-hue: rgba(0, 0, 0, 0.02);
+}
+
 html, body {
+    background-color: var(--bg-color);
+    color: var(--font-color);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color);
+}
+
+p {
+    color: var(--font-color);
 }
 
 h1:focus {
@@ -7,7 +32,7 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: var(--link-color);
 }
 
 .btn-primary {

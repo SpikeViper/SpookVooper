@@ -1,0 +1,59 @@
+﻿:root {
+  --font-color: #ffffff;
+  --font-alt-color: #7a7a7a;
+  --link-color: #00aaff;
+
+  --v-1: #030a10;
+  --v-2: #0b151d;
+  --v-3: #121e27;
+  --v-4: #182631;
+  --v-5: #212f3a;
+  
+  --main: #181a1b;
+  
+  --accent: #736b5e;
+
+  --tint-color: #ffffff;
+
+  --vibrant-purple: #bf06fd;
+  --vibrant-blue: #0c06fd;
+  --vibrant-cyan: #00faff;
+
+  --pastel-cyan: #37a4ce;
+  --pastel-cyan-purple: #6278cd;
+  --pastel-purple: #8457cd;
+  --pastel-red: #cd5e5e;
+}
+
+html, body {
+  color: var(--font-color);
+  background-color: var(--main);
+  border-color: var(--accent);
+}
+
+a {
+  color: var(--link-color);
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}

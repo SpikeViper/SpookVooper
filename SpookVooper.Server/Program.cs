@@ -25,6 +25,7 @@ public class Program
         // Load configs
         LoadConfigsAsync(builder);
 
+#if !DEBUG
         builder.WebHost.ConfigureKestrel((context, options) =>
         {
             options.Configure(builder.Configuration.GetSection("Kestrel"));
@@ -33,6 +34,7 @@ public class Program
                 listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2AndHttp3;
             });
         }); 
+#endif
 
         /*
         builder.WebHost.UseSentry(x =>

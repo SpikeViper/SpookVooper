@@ -1,0 +1,20 @@
+.img-col {
+    max-width: 300px;
+}
+
+.img-col img {
+    height: 256px;
+    width: 256px;
+    object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius: 1000px;
+}
+
+.potatoes {
+    max-width: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    display: block
+}
