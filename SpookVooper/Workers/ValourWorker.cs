@@ -4,8 +4,10 @@ using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using SpookVooper.Config;
 using SpookVooper.Database;
+using SpookVooper.Database.Models;
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
+using Valour.Sdk.Models.Messages.Embeds;
 
 namespace SpookVooper.Workers;
 
@@ -85,6 +87,29 @@ public class ValourWorker : IHostedService
 
         if (message.AuthorUserId == ValourClient.Self.Id)
             return;
+        
+        using (SvDb db = new SvDb())
+        {
+            var user = await db.Users.FirstOrDefaultAsync(x => x.Id == message.AuthorUserId);
+            if (user is null)
+            {
+                user = new SvUser()
+                {
+                    Id = message.AuthorUserId,
+                    DistrictId = Random.Shared.Next(1, 16),
+                    Messages = 0
+                };
+                
+                db.Users.Add(user);
+                
+                await db.SaveChangesAsync();
+            }
+            else
+            {
+                user.Messages += 1;
+                await db.SaveChangesAsync();
+            }
+        }
         
         await CacheMessageContent(message);
 
@@ -227,45 +252,58 @@ public class ValourWorker : IHostedService
     
     public async Task<bool> RunCommands(Message message)
     {
+        var channel = await message.GetChannelAsync();
+        
         if (message.Content.ToLower().StartsWith("/help"))
         {
-            var helpMessage = new Message()
-            {
-                Content = "VoopAI Commands:\n" +
-                          "/help - Display this message\n",
-                ChannelId = message.ChannelId,
-                PlanetId = message.PlanetId,
-                AuthorUserId = ValourClient.Self.Id,
-                AuthorMemberId = _selfMember.Id,
-                Fingerprint = Guid.NewGuid().ToString(),
-            };
+            var text = "VoopAI Commands:\n" + 
+                       "/help - Display this message\n";
 
-            await ValourClient.SendMessage(helpMessage);
+            await channel.SendMessageAsync(text);
+
             return true;
         }
         else if (message.Content.ToLower().StartsWith("/districts"))
         {
             using (SvDb db = new SvDb())
             {
+                var embedBuilder = new EmbedBuilder();
+                embedBuilder.AddPage("Districts of Vooperia");
+                
                 var districts = await db.Districts.ToListAsync();
 
-                var text = "Districts:\n";
                 foreach (var district in districts)
                 {
-                    text += "- " + district.Name + "\n";
+                    embedBuilder.AddRow()
+                        .AddText("- " + district.Name);
                 }
                 
-                var response = new Message()
-                {
-                    Content = text,
-                    ChannelId = message.ChannelId,
-                    PlanetId = message.PlanetId,
-                    AuthorUserId = ValourClient.Self.Id,
-                    AuthorMemberId = _selfMember.Id,
-                    Fingerprint = Guid.NewGuid().ToString(),
-                };
+                await channel.SendMessageAsync("", embed: embedBuilder.embed);
+
+                return true;
+            }
+        }
+        else if (message.Content.ToLower().StartsWith("/xp"))
+        {
+            using (SvDb db = new SvDb())
+            {
+                var name = await message.GetAuthorNameAsync();
                 
-                await ValourClient.SendMessage(response);
+                var embedBuilder = new EmbedBuilder();
+                embedBuilder.AddPage("XP: " + name);
+                
+                var user = await db.Users.FirstOrDefaultAsync(x => x.Id == message.AuthorUserId);
+                if (user is not null)
+                {
+                    embedBuilder.AddRow()
+                        .AddText("Messages: " + user.Messages);
+
+                    embedBuilder.AddRow()
+                        .AddText("Total XP: " + user.Messages * 5);
+
+                    await channel.SendMessageAsync("", embed: embedBuilder.embed);
+                }
+
                 return true;
             }
         }

@@ -8,7 +8,7 @@ public class SvUser
     
     public long Id { get; set; }
     
-    public long Xp { get; set; }
+    public long Messages { get; set; }
     
     public int DistrictId { get; set; }
     
@@ -21,8 +21,8 @@ public class SvUser
             e.Property(x => x.Id)
                 .HasColumnName("id");
             
-            e.Property(x => x.Xp)
-                .HasColumnName("xp");
+            e.Property(x => x.Messages)
+                .HasColumnName("messages");
             
             e.Property(x => x.DistrictId)
                 .HasColumnName("district_id");

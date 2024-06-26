@@ -9,6 +9,7 @@ public class SvDb : DbContext
 {
     public static readonly string ConnectionString = $"Host={DbConfig.Instance.Host};Database={DbConfig.Instance.Database};Username={DbConfig.Instance.Username};Password={DbConfig.Instance.Password};SslMode=Prefer;";
     
+    public DbSet<SvUser> Users { get; set; }
     public DbSet<District> Districts { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
