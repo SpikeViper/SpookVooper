@@ -1,7 +1,9 @@
-﻿using OpenAI_API;
+﻿using Microsoft.EntityFrameworkCore;
+using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using SpookVooper.Config;
+using SpookVooper.Database;
 using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 
@@ -97,6 +99,9 @@ public class ValourWorker : IHostedService
 
             return;
         }
+
+        var ranCommand = await RunCommands(message);
+        if (ranCommand) return;
         
         if ((_conversationActiveByChannel.TryGetValue(message.ChannelId, out var active) && active) ||
             message.Content.ToLower().Contains("voopai"))
@@ -218,6 +223,54 @@ public class ValourWorker : IHostedService
             _logger.LogError("Failed to get AI response!");
             _logger.LogError(e.Message);
         }
+    }
+    
+    public async Task<bool> RunCommands(Message message)
+    {
+        if (message.Content.ToLower().StartsWith("/help"))
+        {
+            var helpMessage = new Message()
+            {
+                Content = "VoopAI Commands:\n" +
+                          "/help - Display this message\n",
+                ChannelId = message.ChannelId,
+                PlanetId = message.PlanetId,
+                AuthorUserId = ValourClient.Self.Id,
+                AuthorMemberId = _selfMember.Id,
+                Fingerprint = Guid.NewGuid().ToString(),
+            };
+
+            await ValourClient.SendMessage(helpMessage);
+            return true;
+        }
+        else if (message.Content.ToLower().StartsWith("/districts"))
+        {
+            using (SvDb db = new SvDb())
+            {
+                var districts = await db.Districts.ToListAsync();
+
+                var text = "Districts:\n";
+                foreach (var district in districts)
+                {
+                    text += "- " + district.Name + "\n";
+                }
+                
+                var response = new Message()
+                {
+                    Content = text,
+                    ChannelId = message.ChannelId,
+                    PlanetId = message.PlanetId,
+                    AuthorUserId = ValourClient.Self.Id,
+                    AuthorMemberId = _selfMember.Id,
+                    Fingerprint = Guid.NewGuid().ToString(),
+                };
+                
+                await ValourClient.SendMessage(response);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

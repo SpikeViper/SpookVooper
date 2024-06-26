@@ -1,7 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SpookVooper.Config;
+using SpookVooper.Database;
 using SpookVooper.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,11 @@ builder.Services.AddCors(options =>
                 "http://localhost:3001",
                 "https://localhost:3001");
     });
+});
+
+builder.Services.AddDbContext<SvDb>(options =>
+{
+    options.UseNpgsql(SvDb.ConnectionString);
 });
 
 // Add services to the container.
@@ -61,6 +68,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Configuration.GetSection("ValourConfig").Get<ValourConfig>();
+builder.Configuration.GetSection("Database").Get<DbConfig>();
 
 var app = builder.Build();
 
