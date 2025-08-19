@@ -97,7 +97,7 @@ public class ValourWorker : IHostedService
                 {
                     Id = message.AuthorUserId,
                     DistrictId = Random.Shared.Next(1, 16),
-                    Messages = 0
+                    MessageCount = 0
                 };
                 
                 db.Users.Add(user);
@@ -106,7 +106,7 @@ public class ValourWorker : IHostedService
             }
             else
             {
-                user.Messages += 1;
+                user.MessageCount += 1;
                 await db.SaveChangesAsync();
             }
         }
@@ -296,10 +296,10 @@ public class ValourWorker : IHostedService
                 if (user is not null)
                 {
                     embedBuilder.AddRow()
-                        .AddText("Messages: " + user.Messages);
+                        .AddText("Messages: " + user.MessageCount);
 
                     embedBuilder.AddRow()
-                        .AddText("Total XP: " + user.Messages * 5);
+                        .AddText("Total XP: " + user.MessageCount * 5);
 
                     await channel.SendMessageAsync("", embed: embedBuilder.embed);
                 }
